@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
-from torchsummary import summary
+# from torchsummary import summary
 from sklearn.decomposition import PCA
 import pandas as pd
 from sklearn.manifold import TSNE
@@ -26,9 +26,9 @@ from sklearn.datasets import make_classification
 from sklearn.preprocessing import LabelEncoder
 import joblib
 import base64
-from streamlit_option_menu import option_menu
+# from streamlit_option_menu import option_menu
 from streamlit.components.v1 import html
-import hydralit_components as hc
+# import hydralit_components as hc
 
 @st.cache_resource
 def get_base64_of_bin_file(bin_file):
@@ -126,18 +126,18 @@ if 'gaussian_image' not in st.session_state:
     st.session_state.gaussian_image = None
 
 # Load the VGG16 feature extractor
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-vgg_model = models.vgg16()
-vgg_model.classifier[-1] = nn.Identity()
-vgg_model.load_state_dict(torch.load('vgg16_feature_extractor.pth', map_location=device))
-vgg_model = vgg_model.to(device)
-vgg_model.eval()
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# vgg_model = models.vgg16()
+# vgg_model.classifier[-1] = nn.Identity()
+# vgg_model.load_state_dict(torch.load('vgg16_feature_extractor.pth', map_location=device))
+# vgg_model = vgg_model.to(device)
+# vgg_model.eval()
 
 # Load the PCA model
-pca = joblib.load('pca_model.pkl')
+# pca = joblib.load('pca_model.pkl')
 
 # Load the trained SVM classifier
-svm_classifier = joblib.load('svm_classifier.pkl')
+# svm_classifier = joblib.load('svm_classifier.pkl')
 
 # Define data transformation
 data_transform = transforms.Compose([
@@ -231,7 +231,7 @@ elif selected_option == "Preprocessing":
     st.markdown("""
         <style>
         .section {
-            background-color: #f0f0f0; /* Background color for the section */
+            background-color: #000000; /* Background color for the section */
             padding: 0px; /* Padding around the section */
             border-radius: 5px; /* Rounded corners */
         }
@@ -376,28 +376,28 @@ elif selected_option == "Classification":
         image = Image.open(uploaded_file).convert("RGB")
         st.image(image, caption='Uploaded Image', use_column_width=True)
         image = data_transform(image)
-        image = image.unsqueeze(0).to(device)
+        # image = image.unsqueeze(0).to(device)
 
-        # Extract features using VGG16
-        with torch.no_grad():
-            features = vgg_model(image).cpu().numpy().flatten()
+        # # Extract features using VGG16
+        # with torch.no_grad():
+        #     features = vgg_model(image).cpu().numpy().flatten()
 
         # Apply PCA transformations
-        features_pca = pca.transform([features])
+        # features_pca = pca.transform([features])
 
         # Predict using the SVM classifier
-        prediction = svm_classifier.predict(features_pca)
-        class_labels = {0: 'glioma', 1: 'meningioma', 2: 'pituitary'}
+        # prediction = svm_classifier.predict(features_pca)
+        # class_labels = {0: 'glioma', 1: 'meningioma', 2: 'pituitary'}
 
-        # HTML and CSS to style the prediction output
-        prediction_text = f"<p style='font-size: 24px; font-weight: bold;'>Prediction: {class_labels[prediction[0]]}</p>"
-        st.markdown(prediction_text, unsafe_allow_html=True)
+        # # HTML and CSS to style the prediction output
+        # prediction_text = f"<p style='font-size: 24px; font-weight: bold;'>Prediction: {class_labels[prediction[0]]}</p>"
+        # st.markdown(prediction_text, unsafe_allow_html=True)
 
 elif selected_option == "About":
     st.markdown("""
         <style>
         .header-with-background {
-            background-color: #808080; /* Background color for the header */
+            background-color: #000000; /* Background color for the header */
             color: white; /* Text color for the header */
             padding: 10px; /* Padding around the header */
             border-radius: 5px; /* Rounded corners */
@@ -410,7 +410,7 @@ elif selected_option == "About":
     st.markdown("""
         <style>
         .section {
-            background-color: #f0f0f0; /* Background color for the section */
+            background-color: #808080; /* Background color for the section */
             padding: 0px; /* Padding around the section */
             border-radius: 5px; /* Rounded corners */
         }
